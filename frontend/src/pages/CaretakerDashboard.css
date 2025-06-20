@@ -1,0 +1,245 @@
+.caretaker-greeting-card {
+  margin: 32px auto 0 auto;
+  max-width: 950px;
+  background: linear-gradient(90deg, #22c55e 0%, #22d3ee 50%, #3b82f6 100%);
+  border-radius: 22px;
+  padding: 32px 36px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  color: #fff;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+}
+.greeting-icon.caretaker {
+  background: #fff;
+  color: #16a34a;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+.caretaker-title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.caretaker-desc {
+  font-size: 1.1rem;
+  margin-top: 4px;
+}
+.caretaker-metrics {
+  display: flex;
+  gap: 32px;
+  margin-left: auto;
+}
+.metric-box {
+  background: rgba(255,255,255,0.13);
+  border-radius: 12px;
+  padding: 18px 28px;
+  text-align: center;
+  min-width: 120px;
+}
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.metric-label {
+  font-size: 1rem;
+  color: #e0f2fe;
+}
+
+.caretaker-tabs {
+  display: flex;
+  gap: 0;
+  margin: 32px auto 0 auto;
+  max-width: 950px;
+  background: #f3f4f6;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.caretaker-tabs button {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 14px 0;
+  font-size: 1.08rem;
+  font-weight: 500;
+  color: #2563eb;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.caretaker-tabs button.active {
+  background: #fff;
+  color: #111;
+  font-weight: 700;
+}
+
+.caretaker-main {
+  display: flex;
+  gap: 32px;
+  margin: 32px auto 0 auto;
+  max-width: 950px;
+}
+.caretaker-status-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+  padding: 28px 32px 24px 32px;
+  flex: 2;
+  min-width: 350px;
+}
+.status-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  color: #2563eb;
+}
+.status-set {
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.08rem;
+}
+.status-set-desc {
+  flex: 1;
+  font-weight: 500;
+}
+.status-set-time {
+  color: #555;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.status-badge {
+  padding: 4px 16px;
+  border-radius: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: #f87171;
+  margin-left: 12px;
+}
+.status-badge.pending {
+  background: #f87171;
+}
+
+.caretaker-actions-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+  padding: 28px 24px 24px 24px;
+  flex: 1;
+  min-width: 270px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.actions-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #222;
+}
+.action-btn {
+  background: #fff;
+  color: #2563eb;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  margin-bottom: 0;
+}
+.action-btn:hover {
+  background: #e0e7ff;
+}
+
+.adherence-progress-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+  padding: 28px 32px 24px 32px;
+  margin: 32px auto 0 auto;
+  max-width: 950px;
+}
+.progress-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #222;
+}
+.progress-bar-bg {
+  background: #f1f5f9;
+  border-radius: 8px;
+  height: 16px;
+  position: relative;
+  margin-bottom: 12px;
+  width: 100%;
+}
+.progress-bar-fill {
+  background: #111827;
+  border-radius: 8px 0 0 8px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.progress-label {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #111;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.progress-legend {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 1.05rem;
+}
+.progress-legend .taken {
+  color: #16a34a;
+  font-weight: 600;
+}
+.progress-legend .missed {
+  color: #dc2626;
+  font-weight: 600;
+}
+.progress-legend .remaining {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .caretaker-main {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .caretaker-greeting-card {
+    flex-direction: column;
+    gap: 18px;
+    text-align: center;
+  }
+  .caretaker-metrics {
+    margin-left: 0;
+    justify-content: center;
+  }
+  .adherence-progress-card {
+    padding: 18px 8px 18px 8px;
+  }
+} 
