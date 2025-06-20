@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  background: #f6f7fb;
+  color: #222;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+:root {
+  --primary: #3b82f6;
+  --primary-dark: #2563eb;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --gray: #e5e7eb;
+  --gray-dark: #d1d5db;
+  --card-bg: #fff;
+  --border-radius: 18px;
+  --shadow: 0 6px 32px rgba(0,0,0,0.10);
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 2.25rem 2rem 2rem 2rem;
+  max-width: 420px;
+  margin: 2.5rem auto;
+  transition: box-shadow 0.2s;
+}
+
+.card:focus-within, .card:hover {
+  box-shadow: 0 8px 40px rgba(59,130,246,0.10);
+}
+
+input, button, select {
+  font-family: inherit;
+}
+
+input, select {
+  padding: 0.6rem 1rem;
+  border: 1.5px solid var(--gray);
+  border-radius: 9px;
+  margin-bottom: 1.1rem;
+  width: 100%;
+  font-size: 1.05rem;
+  background: #fafbfc;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+input:focus, select:focus {
+  border: 1.5px solid var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 2px #dbeafe;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  display: block;
+  color: #222;
+}
+
+button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  padding: 0.85rem 1.5rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.07);
+  letter-spacing: 0.01em;
+}
+button:active, button:hover {
+  background: var(--primary-dark);
+}
+button:focus {
+  outline: 2px solid var(--primary-dark);
+}
+
+.error {
+  color: var(--danger);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background: #fee2e2;
+  border-radius: 7px;
+  padding: 0.5rem 0.75rem;
+}
+
+.success {
+  color: var(--success);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background: #dcfce7;
+  border-radius: 7px;
+  padding: 0.5rem 0.75rem;
+}
+
+a, a:visited {
+  color: var(--primary);
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+a:hover {
+  color: var(--primary-dark);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #f3f4f6;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gray-dark);
+  border-radius: 8px;
+} 
