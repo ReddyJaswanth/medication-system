@@ -1,0 +1,126 @@
+.landing-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #e0f7fa 0%, #e8f5e9 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-center {
+  text-align: center;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.landing-icon {
+  margin-bottom: 16px;
+}
+
+.landing-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.landing-subtitle {
+  font-size: 1.25rem;
+  color: #555;
+  margin-bottom: 32px;
+}
+
+.landing-cards {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.landing-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+  padding: 32px 28px 28px 28px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+.landing-card:hover {
+  box-shadow: 0 8px 32px rgba(44, 62, 80, 0.16);
+}
+
+.card-icon {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  background: #f0f4ff;
+}
+.card-icon.patient {
+  background: #e3edff;
+  color: #2563eb;
+}
+.card-icon.caretaker {
+  background: #e6f9ee;
+  color: #16a34a;
+}
+
+.landing-card h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: inherit;
+}
+.landing-card.patient h2 {
+  color: #2563eb;
+}
+.landing-card.caretaker h2 {
+  color: #16a34a;
+}
+
+.landing-card p {
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.landing-card ul {
+  text-align: left;
+  margin-bottom: 24px;
+  color: #333;
+  font-size: 1rem;
+  padding-left: 18px;
+}
+.landing-card ul li {
+  margin-bottom: 6px;
+}
+
+.card-btn {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.card-btn.patient {
+  background: #2563eb;
+  color: #fff;
+}
+.card-btn.patient:hover {
+  background: #1749b1;
+}
+.card-btn.caretaker {
+  background: #16a34a;
+  color: #fff;
+}
+.card-btn.caretaker:hover {
+  background: #0e7c31;
+} 
