@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "test": "vitest"
+    "test": "vitest",
+    "build": "npm install && cd ../frontend && npm install && npm run build"
   },
   "keywords": [],
   "author": "",

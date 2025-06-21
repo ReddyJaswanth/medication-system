@@ -53,4 +53,16 @@ app.use('/api/auth', authRoutes);
 app.use('/api/medications', medicationsRoutes);
 app.use('/api/intake', intakeRoutes);
 
+// --- Serve Frontend in Production ---
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the React build folder
+  app.use(express.static(path.join(__dirname, '../../frontend/dist')));
+
+  // For any route that is not an API route, send the React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../frontend/dist', 'index.html'));
+  });
+}
+// ------------------------------------
+
 module.exports = app;
