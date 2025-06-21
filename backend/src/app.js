@@ -7,7 +7,6 @@ const initDb = require('./models/initDb');
 const authRoutes = require('./routes/auth');
 const medicationsRoutes = require('./routes/medications');
 const intakeRoutes = require('./routes/intake');
-const caretakerRoutes = require('./routes/caretaker');
 
 // Load environment variables
 dotenv.config();
@@ -53,6 +52,5 @@ if (require.main === module) {
 app.use('/api/auth', authRoutes);
 app.use('/api/medications', medicationsRoutes);
 app.use('/api/intake', intakeRoutes);
-app.use('/api/caretaker', caretakerRoutes);
 
 module.exports = app;

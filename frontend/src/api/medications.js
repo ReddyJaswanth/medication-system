@@ -58,10 +58,9 @@ export function useMarkAsTaken() {
       const res = await axios.post(`${API_URL}/intake/${medicationId}`, {}, { headers: getAuthHeaders() });
       return res.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['medications'] });
-      queryClient.invalidateQueries({ queryKey: ['logs'] });
-      queryClient.invalidateQueries({ queryKey: ['adherence'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['logs'] });
+      await queryClient.invalidateQueries({ queryKey: ['adherence'] });
     }
   });
 } 
