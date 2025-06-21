@@ -4,7 +4,7 @@
   "description": "Backend for the medication system",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app.js",
+    "start": "NODE_ENV=production node src/app.js",
     "dev": "nodemon src/app.js",
     "test": "vitest",
     "build": "npm install && cd ../frontend && npm install --production=false && npm run build"
