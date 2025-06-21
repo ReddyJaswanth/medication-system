@@ -16,7 +16,7 @@
 }
 
 .dashboard-content {
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 24px 32px 24px;
   margin-top: 32px;
@@ -68,17 +68,23 @@
 }
 
 .greeting-card {
-  margin: 32px auto 0 auto;
-  max-width: 950px;
+  margin-top: 32px;
   background: linear-gradient(90deg, #3b82f6 0%, #22d3ee 50%, #22c55e 100%);
   border-radius: 22px;
   padding: 32px 36px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 32px;
   color: #fff;
   box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
 }
+
+.greeting-top {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
 .greeting-icon {
   background: #fff;
   color: #2563eb;
@@ -89,6 +95,8 @@
   align-items: center;
   justify-content: center;
   margin-right: 12px;
+  font-size: 1.1rem;
+  margin-top: 4px;
 }
 .greeting-title {
   font-size: 2rem;
@@ -101,7 +109,8 @@
 .greeting-metrics {
   display: flex;
   gap: 32px;
-  margin-left: auto;
+  justify-content: space-around;
+  width: 100%;
 }
 .metric-box {
   background: rgba(255,255,255,0.13);
@@ -131,8 +140,7 @@
 .dashboard-main {
   display: flex;
   gap: 32px;
-  max-width: 1100px;
-  margin: 32px auto 0 auto;
+  margin-top: 32px;
   align-items: flex-start;
 }
 .medication-card {
@@ -184,6 +192,30 @@
   align-items: center;
   gap: 4px;
 }
+.medication-set-icon.completed {
+  color: #16a34a;
+  font-size: 1.5rem;
+}
+.medication-completed-view {
+  background-color: #f0fdf4;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 18px;
+}
+.completed-icon {
+  color: #16a34a;
+  margin-bottom: 12px;
+}
+.completed-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.completed-desc {
+  color: #555;
+  font-size: 1rem;
+}
 .proof-photo {
   background: #f8fafc;
   border-radius: 12px;
@@ -214,8 +246,9 @@
   padding: 8px 18px;
   font-size: 1rem;
   font-weight: 600;
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
 }
@@ -358,8 +391,7 @@
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
   padding: 28px 32px 24px 32px;
-  margin: 32px auto 0 auto;
-  max-width: 950px;
+  margin-top: 32px;
 }
 .medications-list-header {
   display: flex;

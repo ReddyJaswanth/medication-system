@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import './PatientDashboard.css';
 import { FaUser, FaCamera, FaCalendarAlt, FaEdit, FaTrash, FaPlus, FaCheckCircle, FaBan } from 'react-icons/fa';
 import { useMedications, useMarkAsTaken, useAddMedication, useUpdateMedication, useDeleteMedication } from '../api/medications';
-import { useLogs, useAdherence } from '../api/intake';
+import { useLogs } from '../api/intake';
 
 function getDaysInMonth(year, month) {
   return new Date(year, month + 1, 0).getDate();
+}
+
+function getGreeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) {
+    return 'Good Morning!';
+  } else if (hour < 17) {
+    return 'Good Afternoon!';
+  } else {
+    return 'Good Evening!';
+  }
 }
 
 function PatientDashboard() {
@@ -21,11 +32,47 @@ function PatientDashboard() {
     month: today.getMonth(),
     day: today.getDate(),
   });
+  const [dayStreak, setDayStreak] = useState(0);
+
+  // Get user from local storage
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  useEffect(() => {
+    let currentStreak = parseInt(localStorage.getItem('dayStreak') || '0', 10);
+    const lastTakenDate = localStorage.getItem('lastTakenDate');
+
+    if (lastTakenDate) {
+      const todayDate = new Date();
+      const todayKey = `${todayDate.getFullYear()}-${String(todayDate.getMonth() + 1).padStart(2, '0')}-${String(
+        todayDate.getDate()
+      ).padStart(2, '0')}`;
+
+      const yesterdayDate = new Date();
+      yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+      const yesterdayKey = `${yesterdayDate.getFullYear()}-${String(yesterdayDate.getMonth() + 1).padStart(2, '0')}-${String(
+        yesterdayDate.getDate()
+      ).padStart(2, '0')}`;
+
+      if (lastTakenDate !== todayKey && lastTakenDate !== yesterdayKey) {
+        currentStreak = 0;
+        localStorage.setItem('dayStreak', '0');
+      }
+    }
+    setDayStreak(currentStreak);
+  }, []);
+
+  // Get dynamic greeting
+  const greeting = getGreeting();
 
   // Data hooks
   const { data: medications = [], isLoading: medsLoading, error: medsError } = useMedications();
   const { data: logs = [], isLoading: logsLoading, error: logsError } = useLogs();
-  const { data: adherence = { adherence: 0, streak: 0 }, isLoading: adhLoading, error: adhError } = useAdherence();
   const markAsTaken = useMarkAsTaken();
   const addMedication = useAddMedication();
   const updateMedication = useUpdateMedication();
@@ -84,6 +131,17 @@ function PatientDashboard() {
     }
   };
 
+  // --- Adherence Calculation ---
+  const monthlyLogs = logs.filter(log => {
+    const logDate = new Date(log.date);
+    return logDate.getFullYear() === calendarYear && logDate.getMonth() === calendarMonth;
+  });
+  const takenCurrentMonth = monthlyLogs.filter(l => l.taken).length;
+  const missedCurrentMonth = monthlyLogs.filter(l => !l.taken).length;
+  const totalLoggedDays = takenCurrentMonth + missedCurrentMonth;
+  const monthlyRate = totalLoggedDays > 0 ? Math.round((takenCurrentMonth / totalLoggedDays) * 100) : 0;
+  // -------------------------
+
   // Calendar coloring from logs
   const takenDates = logs.filter(l => l.taken).map(l => l.date);
   const missedDates = logs.filter(l => !l.taken).map(l => l.date);
@@ -121,6 +179,7 @@ function PatientDashboard() {
   const isPast = selectedDateObj < new Date(today.getFullYear(), today.getMonth(), today.getDate());
   const isFuture = selectedDateObj > new Date(today.getFullYear(), today.getMonth(), today.getDate());
   const isSelectedTaken = takenDates.includes(selectedKey);
+  const isTodayTaken = takenDates.includes(todayKey);
 
   // Mark as taken handler
   const handleMarkAsTaken = async (medId, medDateKey) => {
@@ -128,6 +187,32 @@ function PatientDashboard() {
     if (isSelectedTaken) return;
     try {
       await markAsTaken.mutateAsync(medId);
+
+      const lastTakenDate = localStorage.getItem('lastTakenDate');
+      const todayDate = new Date();
+      const todayKey = `${todayDate.getFullYear()}-${String(todayDate.getMonth() + 1).padStart(2, '0')}-${String(
+        todayDate.getDate()
+      ).padStart(2, '0')}`;
+
+      if (medDateKey === todayKey && lastTakenDate !== todayKey) {
+        const yesterdayDate = new Date();
+        yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+        const yesterdayKey = `${yesterdayDate.getFullYear()}-${String(yesterdayDate.getMonth() + 1).padStart(2, '0')}-${String(
+          yesterdayDate.getDate()
+        ).padStart(2, '0')}`;
+
+        let currentStreak = parseInt(localStorage.getItem('dayStreak') || '0', 10);
+
+        if (lastTakenDate === yesterdayKey) {
+          currentStreak++;
+        } else {
+          currentStreak = 1;
+        }
+
+        localStorage.setItem('dayStreak', currentStreak.toString());
+        localStorage.setItem('lastTakenDate', todayKey);
+        setDayStreak(currentStreak);
+      }
     } catch (err) {
       // ignore
     }
@@ -139,24 +224,26 @@ function PatientDashboard() {
       <div className="dashboard-content">
         {/* Greeting Card */}
         <section className="greeting-card">
-          <div className="greeting-icon"><FaUser size={36} /></div>
-          <div>
-            <div className="greeting-title">Good Afternoon!</div>
-            <div className="greeting-desc">Ready to stay on track with your medication?</div>
+          <div className="greeting-top">
+            <div className="greeting-icon"><FaUser size={36} /></div>
+            <div>
+              <div className="greeting-title">{greeting} {user?.username}!</div>
+              <div className="greeting-desc">Ready to stay on track with your medication?</div>
+            </div>
           </div>
           <div className="greeting-metrics">
             <div className="metric-box">
-              <div className="metric-value">{adhLoading ? '...' : adherence.streak || 0}</div>
+              <div className="metric-value">{dayStreak}</div>
               <div className="metric-label">Day Streak</div>
             </div>
             <div className="metric-box">
               <div className="metric-value">
-                {isToday ? <FaCheckCircle color="#16a34a" size={22} title="Taken" /> : <span className="metric-circle" />}
+                {isTodayTaken ? <FaCheckCircle color="#16a34a" size={22} title="Taken" /> : <span className="metric-circle" />}
               </div>
               <div className="metric-label">Today's Status</div>
             </div>
             <div className="metric-box">
-              <div className="metric-value">{adhLoading ? '...' : (adherence.adherence || 0) + '%'}</div>
+              <div className="metric-value">{logsLoading ? '...' : `${monthlyRate}%`}</div>
               <div className="metric-label">Monthly Rate</div>
             </div>
           </div>
@@ -223,6 +310,33 @@ function PatientDashboard() {
               <div className="error">Error loading medications</div>
             ) : selectedMeds.length === 0 ? (
               <div style={{ color: '#888', fontSize: 15 }}>No medications for this date.</div>
+            ) : isSelectedTaken ? (
+              <>
+                <div className="medication-completed-view">
+                  <div className="completed-icon">
+                    <FaCheckCircle size={48} />
+                  </div>
+                  <div className="completed-title">Medication Completed!</div>
+                  <div className="completed-desc">
+                    Great job! You've taken your medication for{' '}
+                    {new Date(selectedKey.replace(/-/g, '/')).toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
+                    .
+                  </div>
+                </div>
+                {selectedMeds.map(med => (
+                  <div className="medication-set" key={med.id}>
+                    <span className="medication-set-icon completed">
+                      <FaCheckCircle />
+                    </span>
+                    <span className="medication-set-desc">{med.name} ({med.dosage}, {med.frequency})</span>
+                    <span className="medication-set-time">8:00 AM</span>
+                  </div>
+                ))}
+              </>
             ) : (
               <>
                 {selectedMeds.map(med => {
@@ -230,11 +344,7 @@ function PatientDashboard() {
                   let btnText = 'Mark as Taken';
                   let btnIcon = '✓';
                   let btnDisabled = false;
-                  if (isSelectedTaken) {
-                    btnText = 'Already Taken';
-                    btnIcon = <FaCheckCircle color="#16a34a" style={{ marginRight: 6 }} />;
-                    btnDisabled = true;
-                  } else if (!isToday) {
+                  if (!isToday) {
                     btnText = 'Cannot Mark as Taken';
                     btnIcon = <FaBan color="#dc2626" style={{ marginRight: 6 }} />;
                     btnDisabled = true;
@@ -254,16 +364,16 @@ function PatientDashboard() {
                     </div>
                   );
                 })}
+                <div className="proof-photo">
+                  <div className="proof-photo-icon"><FaCamera size={40} /></div>
+                  <div className="proof-photo-title">Add Proof Photo (Optional)</div>
+                  <div className="proof-photo-desc">Take a photo of your medication or pill organizer as confirmation</div>
+                  <input type="file" accept="image/*" style={{ display: 'none' }} id="proof-photo-input" onChange={handlePhotoChange} />
+                  <label htmlFor="proof-photo-input" className="take-photo-btn"><FaCamera style={{ marginRight: 6 }} /> Take Photo</label>
+                  {proofPhoto && <img src={proofPhoto} alt="Proof" style={{ marginTop: 10, maxWidth: 120, borderRadius: 8 }} />}
+                </div>
               </>
             )}
-            <div className="proof-photo">
-              <div className="proof-photo-icon"><FaCamera size={40} /></div>
-              <div className="proof-photo-title">Add Proof Photo (Optional)</div>
-              <div className="proof-photo-desc">Take a photo of your medication or pill organizer as confirmation</div>
-              <input type="file" accept="image/*" style={{ display: 'none' }} id="proof-photo-input" onChange={handlePhotoChange} />
-              <label htmlFor="proof-photo-input" className="take-photo-btn"><FaCamera style={{ marginRight: 6 }} /> Take Photo</label>
-              {proofPhoto && <img src={proofPhoto} alt="Proof" style={{ marginTop: 10, maxWidth: 120, borderRadius: 8 }} />}
-            </div>
           </section>
           <aside className="calendar-card">
             <div className="calendar-title">Medication Calendar</div>
